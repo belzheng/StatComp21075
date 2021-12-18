@@ -1,0 +1,200 @@
+---
+title: "PACS_21075"
+author: "Yu Zheng_21075"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to PACS procedure for variable selection}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## PACS Model introduction 
+  Statistical procedures for variable selection have become integral elements in any analysis. Successful procedures are characterized by high predictive accuracy, yielding interpretable models while retaining computational efficiency. Penalized methods that perform coefficient shrinkage have been shown to be successful in many cases. Models
+with correlated predictors are particularly challenging to tackle.PACS(Pairwise Absolute Clustering and Sparsity) is a penalization procedure that performs variable selection while clustering groups of predictors automatically.
+  Specifically,PACS propose a penalization scheme
+with non-negative weights,$\boldsymbol{w}$,whose estimates are the minimizers of\
+$\left\|\mathbf{y}-\sum_{j=1}^{p} \mathbf{x}_{j} \beta_{j}\right\|^{2}+\lambda\left\{\sum_{j=1}^{p} w_{j}\left|\beta_{j}\right|+\sum_{1 \leq j<k \leq p} w_{j k(-)}\left|\beta_{k}-\beta_{j}\right|+\sum_{1 \leq j<k \leq p} w_{j k(+)}\left|\beta_{j}+\beta_{k}\right|\right\} .$
+The penalty consists of a weighted $L_{1}$ norm of the coefficients that encourages sparseness and a penalty on the differences and sums of pairs of coefficients that encourages equality
+of coefficients.
+
+We compare the two methods in terms of  model error (ME) for prediction accuracy,we report $ME=(\hat{\beta}-\beta)^{T}V (\hat{\beta}-\beta)$.
+where $V$ is the population covariance matrix of $X$.
+
+
+## LASSO Model introduction 
+The lasso estimate is defined by\
+$\hat{\beta}^{\text {lasso }}=\underset{\beta}{\operatorname{argmin}} \sum_{i=1}^{N}\left(y_{i}-\beta_{0}-\sum_{j=1}^{p} x_{i j} \beta_{j}\right)^{2}$\
+subject to $\sum_{j=1}^{p}\left|\beta_{j}\right| \leq t$\\
+ $t$ should be adaptively chosen to minimize an estimate of expected prediction error.
+
+## The source R code for Pairwise Absolute Clustering and Sparsity and simulation example is as follows:
+
+```{r}
+PACS=function(y,X,lambda,betawt,type=1,rr=0,eps=10^-5)
+{
+  require(mvtnorm)
+  require(MASS)
+  require(Matrix)
+  if(lambda <=0) {return(cat("ERROR: Lambda must be > 0. \n"))}
+  if(rr <0) {return(cat("ERROR: RR must be >=0. \n"))}
+  if(rr >1) {return(cat("ERROR: RR must be <=1. \n"))}
+  if(eps <=0) {return(cat("ERROR: Eps must be > 0. \n"))}
+  if(!(type %in% 1:4)){return(cat("ERROR: Type must be 1, 2, 3 or 4. \n"))}
+  x=scale(x)
+  y=y-mean(y)
+  n=length(y)
+  p=dim(x)[2]
+  littleeps=10^-7
+  # require p>1
+  qp=p*(p-1)/2
+  vc=0
+  row.vec1=0
+  col.vec1=0
+  for(w in 1:(p-1))
+  {
+    row.vec1=c(row.vec1,c((vc+1):(vc+(p-w))))
+    col.vec1=c(col.vec1,rep(w,length(c((vc+1):(vc+(p-w))))))
+    vc=vc+(p-w)
+  }
+  c1=1
+  c2=p-1
+  row.vec2=0
+  col.vec2=0
+  for(w in 1:(p-1))
+  {
+    row.vec2=c(row.vec2,c(c1:c2))
+    col.vec2=c(col.vec2,c((w+1):p))
+    c1=c2+1
+    c2=c2+p-w-1
+  }
+  dm=sparseMatrix(i=c(row.vec1[-1],row.vec2[-1]),j=c(col.vec1[-1],col.vec2[-1]),x=c(rep(1,qp),rep(-1,qp)))
+  dp=sparseMatrix(i=c(row.vec1[-1],row.vec2[-1]),j=c(col.vec1[-1],col.vec2[-1]),x=c(rep(1,qp),rep(1,qp)))
+  rm(c1,c2,w,vc,row.vec1,col.vec1,row.vec2,col.vec2)
+  if(type==1)
+  {
+    ascvec=c(1/abs(betawt),1/as.vector(abs(dm%*%betawt)),1/as.vector(abs(dp%*%betawt)))
+  }
+  if(type==2)
+  {
+    cor.mat=cor(x)
+    crm=1/(1-cor.mat[1,2:p])
+    for(cc in 2:(p-1)){crm=c(crm,1/(1-cor.mat[cc,(cc+1):p]))}
+    crp=1/(1+cor.mat[1,2:p])
+    for(cc in 2:(p-1)){crp=c(crp,1/(1+cor.mat[cc,(cc+1):p]))}
+    rm(cor.mat)
+    ascvec=c(1/abs(betawt),crm/as.vector(abs(dm%*%betawt)),crp/as.vector(abs(dp%*%betawt)))
+  }
+  if(type==3)
+  {
+    corp=ifelse(cor(x)>rr,1,0)
+    cor.mat=cor(x)
+    crm=corp[1,2:p]
+    for(cc in 2:(p-1)){crm=c(crm,corp[cc,(cc+1):p])}
+    rr=-rr
+    corm=ifelse(cor(x)<rr,1,0)
+    crp=corm[1,2:p]
+    for(cc in 2:(p-1)){crp=c(crp,corm[cc,(cc+1):p])}
+    ascvec=c(1/abs(betawt),crm/as.vector(abs(dm%*%betawt)),crp/as.vector(abs(dp%*%betawt)))
+  }
+  if(type==4)
+  {
+    corp=ifelse(cor(x)>rr,1,0)
+    cor.mat=cor(x)
+    crm=corp[1,2:p]/(1-cor.mat[1,2:p])
+    for(cc in 2:(p-1)){crm=c(crm,corp[cc,(cc+1):p]/(1-cor.mat[cc,(cc+1):p]))}
+    rr=-rr
+    corm=ifelse(cor(x)<rr,1,0)
+    crp=corm[1,2:p]/(1+cor.mat[1,2:p])
+    for(cc in 2:(p-1)){crp=c(crp,corm[cc,(cc+1):p]/(1+cor.mat[cc,(cc+1):p]))}
+    ascvec=c(1/abs(betawt),crm/as.vector(abs(dm%*%betawt)),crp/as.vector(abs(dp%*%betawt)))
+  }
+  betal=betawt
+  betaeps=1
+  while(betaeps>eps)
+  {
+    betatilde=betal
+    mm1=diag(ascvec[1:p]/(abs(betatilde)+littleeps))
+    mm2=diag(ascvec[(p+1):(p+qp)]/(as.vector(abs(dm%*%betatilde))+littleeps))
+    mm3=diag(ascvec[(p+qp+1):(p+2*qp)]/(as.vector(abs(dp%*%betatilde))+littleeps))
+    betal=as.vector(solve(t(x)%*%x+lambda*(mm1+t(dm)%*%mm2%*%dm+t(dp)%*%mm3%*%dp))%*%t(x)%*%y)
+    rm(mm1,mm2,mm3)
+    betaeps=max(abs(betatilde-betal)/(abs(betatilde)+littleeps))
+  }
+  fit=NULL
+  fit$coefficients=betatilde
+  fit$lambda=lambda
+  fit$cor=abs(rr)
+  fit$weights=betawt
+  fit$type=type
+  fit$eps=eps
+  fit$littleeps=littleeps  
+  return(fit)
+}
+
+library(MASS)
+n<-100
+c1<-c(1,0.7,0.7,rep(0,5))
+c2<-c(0.7,1,0.7,rep(0,5))
+c3<-c(0.7,0.7,1,rep(0,5))
+c4<-c(rep(0,3),1,rep(0,4))
+c5<-c(rep(0,4),1,rep(0,3))
+c6<-c(rep(0,5),1,rep(0,2))
+c7<-c(rep(0,6),1,0)
+c8<-c(rep(0,7),1)
+s<-rbind(c1,c2,c3,c4,c5,c6,c7,c8)
+x<-mvrnorm(n,rep(0,8),s)
+beta<-c(2,2,2,rep(0,5))
+eps<-rnorm(n)
+y<-x%*%beta+eps
+betawt<-summary(lm(y~x))$coefficients[2:9]
+pacs.res<-PACS(y,x,lambda=1,betawt=betawt,type=1,rr=0,eps=10^-5)
+betahat.pacs<-pacs.res$coefficients
+
+
+##lasso estimates
+coef.lasso<-function(x,y){
+  library(lars)
+  object1<-lars(x,y,type="lasso")
+  cv_sol<-cv.lars(x,y,type="lasso",mode="step")
+  fra=cv_sol$index[which.min(cv_sol$cv)]
+  betahat.lasso<-object1$beta[fra,]
+  return(betahat.lasso)
+}
+
+betahat.lasso<-coef.lasso(x,y)
+list(betahat.lasso=betahat.lasso,betahat.pacs=betahat.pacs)
+
+##model error (ME) for prediction accuracy
+ME<-function(beta,betahat,x){
+  v<-cov(x)
+  me<-t((betahat-beta))%*%v%*%(betahat-beta)
+  return(me[1,1])
+}
+me.lasso<-ME(beta,betahat.lasso,x)
+me.pacs<-ME(beta,betahat.pacs,x)
+list(me.lasso=me.lasso,me.pacs=me.pacs)
+```
+$\textbf{conclusion:}$
+We can see that the model error of pacs is less than that of lasso.
+
+## we can also plot the solution path for lasso
+
+```{r}
+library(lars)
+  object1<-lars(x,y,type="lasso")
+  plot(object1)
+  cv_sol<-cv.lars(x,y,type="lasso",mode="step")
+  fra=cv_sol$index[which.min(cv_sol$cv)]
+  object1$beta[fra,]
+  #prediction
+  res=predict(object1,newx=x[1:5,],s=fra,type="fit", mode="step")
+  res
+```
+
+

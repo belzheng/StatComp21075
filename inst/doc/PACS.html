@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Yu Zheng_21075" />
+
+<meta name="date" content="2021-12-17" />
+
+<title>PACS_21075</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">PACS_21075</h1>
+<h4 class="author">Yu Zheng_21075</h4>
+<h4 class="date">2021-12-17</h4>
+
+
+
+<div id="pacs-model-introduction" class="section level2">
+<h2>PACS Model introduction</h2>
+<p>Statistical procedures for variable selection have become integral elements in any analysis. Successful procedures are characterized by high predictive accuracy, yielding interpretable models while retaining computational efficiency. Penalized methods that perform coefficient shrinkage have been shown to be successful in many cases. Models with correlated predictors are particularly challenging to tackle.PACS(Pairwise Absolute Clustering and Sparsity) is a penalization procedure that performs variable selection while clustering groups of predictors automatically. Specifically,PACS propose a penalization scheme with non-negative weights,<span class="math inline">\(\boldsymbol{w}\)</span>,whose estimates are the minimizers of<br />
+<span class="math inline">\(\left\|\mathbf{y}-\sum_{j=1}^{p} \mathbf{x}_{j} \beta_{j}\right\|^{2}+\lambda\left\{\sum_{j=1}^{p} w_{j}\left|\beta_{j}\right|+\sum_{1 \leq j&lt;k \leq p} w_{j k(-)}\left|\beta_{k}-\beta_{j}\right|+\sum_{1 \leq j&lt;k \leq p} w_{j k(+)}\left|\beta_{j}+\beta_{k}\right|\right\} .\)</span> The penalty consists of a weighted <span class="math inline">\(L_{1}\)</span> norm of the coefficients that encourages sparseness and a penalty on the differences and sums of pairs of coefficients that encourages equality of coefficients.</p>
+<p>We compare the two methods in terms of model error (ME) for prediction accuracy,we report <span class="math inline">\(ME=(\hat{\beta}-\beta)^{T}V (\hat{\beta}-\beta)\)</span>. where <span class="math inline">\(V\)</span> is the population covariance matrix of <span class="math inline">\(X\)</span>.</p>
+</div>
+<div id="lasso-model-introduction" class="section level2">
+<h2>LASSO Model introduction</h2>
+<p>The lasso estimate is defined by<br />
+<span class="math inline">\(\hat{\beta}^{\text {lasso }}=\underset{\beta}{\operatorname{argmin}} \sum_{i=1}^{N}\left(y_{i}-\beta_{0}-\sum_{j=1}^{p} x_{i j} \beta_{j}\right)^{2}\)</span><br />
+subject to <span class="math inline">\(\sum_{j=1}^{p}\left|\beta_{j}\right| \leq t\)</span>\ <span class="math inline">\(t\)</span> should be adaptively chosen to minimize an estimate of expected prediction error.</p>
+</div>
+<div id="the-source-r-code-for-pairwise-absolute-clustering-and-sparsity-and-simulation-example-is-as-follows" class="section level2">
+<h2>The source R code for Pairwise Absolute Clustering and Sparsity and simulation example is as follows:</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>PACS<span class="ot">=</span><span class="cf">function</span>(y,X,lambda,betawt,<span class="at">type=</span><span class="dv">1</span>,<span class="at">rr=</span><span class="dv">0</span>,<span class="at">eps=</span><span class="dv">10</span><span class="sc">^-</span><span class="dv">5</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(mvtnorm)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(MASS)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(Matrix)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(lambda <span class="sc">&lt;=</span><span class="dv">0</span>) {<span class="fu">return</span>(<span class="fu">cat</span>(<span class="st">&quot;ERROR: Lambda must be &gt; 0. </span><span class="sc">\n</span><span class="st">&quot;</span>))}</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(rr <span class="sc">&lt;</span><span class="dv">0</span>) {<span class="fu">return</span>(<span class="fu">cat</span>(<span class="st">&quot;ERROR: RR must be &gt;=0. </span><span class="sc">\n</span><span class="st">&quot;</span>))}</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(rr <span class="sc">&gt;</span><span class="dv">1</span>) {<span class="fu">return</span>(<span class="fu">cat</span>(<span class="st">&quot;ERROR: RR must be &lt;=1. </span><span class="sc">\n</span><span class="st">&quot;</span>))}</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(eps <span class="sc">&lt;=</span><span class="dv">0</span>) {<span class="fu">return</span>(<span class="fu">cat</span>(<span class="st">&quot;ERROR: Eps must be &gt; 0. </span><span class="sc">\n</span><span class="st">&quot;</span>))}</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="sc">!</span>(type <span class="sc">%in%</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)){<span class="fu">return</span>(<span class="fu">cat</span>(<span class="st">&quot;ERROR: Type must be 1, 2, 3 or 4. </span><span class="sc">\n</span><span class="st">&quot;</span>))}</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  x<span class="ot">=</span><span class="fu">scale</span>(x)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  y<span class="ot">=</span>y<span class="sc">-</span><span class="fu">mean</span>(y)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  n<span class="ot">=</span><span class="fu">length</span>(y)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  p<span class="ot">=</span><span class="fu">dim</span>(x)[<span class="dv">2</span>]</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  littleeps<span class="ot">=</span><span class="dv">10</span><span class="sc">^-</span><span class="dv">7</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># require p&gt;1</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  qp<span class="ot">=</span>p<span class="sc">*</span>(p<span class="dv">-1</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  vc<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  row.vec1<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  col.vec1<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(w <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(p<span class="dv">-1</span>))</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    row.vec1<span class="ot">=</span><span class="fu">c</span>(row.vec1,<span class="fu">c</span>((vc<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(vc<span class="sc">+</span>(p<span class="sc">-</span>w))))</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    col.vec1<span class="ot">=</span><span class="fu">c</span>(col.vec1,<span class="fu">rep</span>(w,<span class="fu">length</span>(<span class="fu">c</span>((vc<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(vc<span class="sc">+</span>(p<span class="sc">-</span>w))))))</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    vc<span class="ot">=</span>vc<span class="sc">+</span>(p<span class="sc">-</span>w)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  c1<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  c2<span class="ot">=</span>p<span class="dv">-1</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  row.vec2<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  col.vec2<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(w <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(p<span class="dv">-1</span>))</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    row.vec2<span class="ot">=</span><span class="fu">c</span>(row.vec2,<span class="fu">c</span>(c1<span class="sc">:</span>c2))</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    col.vec2<span class="ot">=</span><span class="fu">c</span>(col.vec2,<span class="fu">c</span>((w<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>p))</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    c1<span class="ot">=</span>c2<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    c2<span class="ot">=</span>c2<span class="sc">+</span>p<span class="sc">-</span>w<span class="dv">-1</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  dm<span class="ot">=</span><span class="fu">sparseMatrix</span>(<span class="at">i=</span><span class="fu">c</span>(row.vec1[<span class="sc">-</span><span class="dv">1</span>],row.vec2[<span class="sc">-</span><span class="dv">1</span>]),<span class="at">j=</span><span class="fu">c</span>(col.vec1[<span class="sc">-</span><span class="dv">1</span>],col.vec2[<span class="sc">-</span><span class="dv">1</span>]),<span class="at">x=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>,qp),<span class="fu">rep</span>(<span class="sc">-</span><span class="dv">1</span>,qp)))</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  dp<span class="ot">=</span><span class="fu">sparseMatrix</span>(<span class="at">i=</span><span class="fu">c</span>(row.vec1[<span class="sc">-</span><span class="dv">1</span>],row.vec2[<span class="sc">-</span><span class="dv">1</span>]),<span class="at">j=</span><span class="fu">c</span>(col.vec1[<span class="sc">-</span><span class="dv">1</span>],col.vec2[<span class="sc">-</span><span class="dv">1</span>]),<span class="at">x=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>,qp),<span class="fu">rep</span>(<span class="dv">1</span>,qp)))</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rm</span>(c1,c2,w,vc,row.vec1,col.vec1,row.vec2,col.vec2)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(type<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    ascvec<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="fu">abs</span>(betawt),<span class="dv">1</span><span class="sc">/</span><span class="fu">as.vector</span>(<span class="fu">abs</span>(dm<span class="sc">%*%</span>betawt)),<span class="dv">1</span><span class="sc">/</span><span class="fu">as.vector</span>(<span class="fu">abs</span>(dp<span class="sc">%*%</span>betawt)))</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(type<span class="sc">==</span><span class="dv">2</span>)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    cor.mat<span class="ot">=</span><span class="fu">cor</span>(x)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    crm<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>cor.mat[<span class="dv">1</span>,<span class="dv">2</span><span class="sc">:</span>p])</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(cc <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>(p<span class="dv">-1</span>)){crm<span class="ot">=</span><span class="fu">c</span>(crm,<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>cor.mat[cc,(cc<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>p]))}</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    crp<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>cor.mat[<span class="dv">1</span>,<span class="dv">2</span><span class="sc">:</span>p])</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(cc <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>(p<span class="dv">-1</span>)){crp<span class="ot">=</span><span class="fu">c</span>(crp,<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>cor.mat[cc,(cc<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>p]))}</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rm</span>(cor.mat)</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    ascvec<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="fu">abs</span>(betawt),crm<span class="sc">/</span><span class="fu">as.vector</span>(<span class="fu">abs</span>(dm<span class="sc">%*%</span>betawt)),crp<span class="sc">/</span><span class="fu">as.vector</span>(<span class="fu">abs</span>(dp<span class="sc">%*%</span>betawt)))</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(type<span class="sc">==</span><span class="dv">3</span>)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    corp<span class="ot">=</span><span class="fu">ifelse</span>(<span class="fu">cor</span>(x)<span class="sc">&gt;</span>rr,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    cor.mat<span class="ot">=</span><span class="fu">cor</span>(x)</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    crm<span class="ot">=</span>corp[<span class="dv">1</span>,<span class="dv">2</span><span class="sc">:</span>p]</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(cc <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>(p<span class="dv">-1</span>)){crm<span class="ot">=</span><span class="fu">c</span>(crm,corp[cc,(cc<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>p])}</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>    rr<span class="ot">=</span><span class="sc">-</span>rr</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    corm<span class="ot">=</span><span class="fu">ifelse</span>(<span class="fu">cor</span>(x)<span class="sc">&lt;</span>rr,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    crp<span class="ot">=</span>corm[<span class="dv">1</span>,<span class="dv">2</span><span class="sc">:</span>p]</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(cc <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>(p<span class="dv">-1</span>)){crp<span class="ot">=</span><span class="fu">c</span>(crp,corm[cc,(cc<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>p])}</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>    ascvec<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="fu">abs</span>(betawt),crm<span class="sc">/</span><span class="fu">as.vector</span>(<span class="fu">abs</span>(dm<span class="sc">%*%</span>betawt)),crp<span class="sc">/</span><span class="fu">as.vector</span>(<span class="fu">abs</span>(dp<span class="sc">%*%</span>betawt)))</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(type<span class="sc">==</span><span class="dv">4</span>)</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>    corp<span class="ot">=</span><span class="fu">ifelse</span>(<span class="fu">cor</span>(x)<span class="sc">&gt;</span>rr,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>    cor.mat<span class="ot">=</span><span class="fu">cor</span>(x)</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>    crm<span class="ot">=</span>corp[<span class="dv">1</span>,<span class="dv">2</span><span class="sc">:</span>p]<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>cor.mat[<span class="dv">1</span>,<span class="dv">2</span><span class="sc">:</span>p])</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(cc <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>(p<span class="dv">-1</span>)){crm<span class="ot">=</span><span class="fu">c</span>(crm,corp[cc,(cc<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>p]<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>cor.mat[cc,(cc<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>p]))}</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>    rr<span class="ot">=</span><span class="sc">-</span>rr</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>    corm<span class="ot">=</span><span class="fu">ifelse</span>(<span class="fu">cor</span>(x)<span class="sc">&lt;</span>rr,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>    crp<span class="ot">=</span>corm[<span class="dv">1</span>,<span class="dv">2</span><span class="sc">:</span>p]<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>cor.mat[<span class="dv">1</span>,<span class="dv">2</span><span class="sc">:</span>p])</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(cc <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>(p<span class="dv">-1</span>)){crp<span class="ot">=</span><span class="fu">c</span>(crp,corm[cc,(cc<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>p]<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>cor.mat[cc,(cc<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>p]))}</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>    ascvec<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="fu">abs</span>(betawt),crm<span class="sc">/</span><span class="fu">as.vector</span>(<span class="fu">abs</span>(dm<span class="sc">%*%</span>betawt)),crp<span class="sc">/</span><span class="fu">as.vector</span>(<span class="fu">abs</span>(dp<span class="sc">%*%</span>betawt)))</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>  betal<span class="ot">=</span>betawt</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>  betaeps<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span>(betaeps<span class="sc">&gt;</span>eps)</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>    betatilde<span class="ot">=</span>betal</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>    mm1<span class="ot">=</span><span class="fu">diag</span>(ascvec[<span class="dv">1</span><span class="sc">:</span>p]<span class="sc">/</span>(<span class="fu">abs</span>(betatilde)<span class="sc">+</span>littleeps))</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>    mm2<span class="ot">=</span><span class="fu">diag</span>(ascvec[(p<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(p<span class="sc">+</span>qp)]<span class="sc">/</span>(<span class="fu">as.vector</span>(<span class="fu">abs</span>(dm<span class="sc">%*%</span>betatilde))<span class="sc">+</span>littleeps))</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>    mm3<span class="ot">=</span><span class="fu">diag</span>(ascvec[(p<span class="sc">+</span>qp<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(p<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>qp)]<span class="sc">/</span>(<span class="fu">as.vector</span>(<span class="fu">abs</span>(dp<span class="sc">%*%</span>betatilde))<span class="sc">+</span>littleeps))</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>    betal<span class="ot">=</span><span class="fu">as.vector</span>(<span class="fu">solve</span>(<span class="fu">t</span>(x)<span class="sc">%*%</span>x<span class="sc">+</span>lambda<span class="sc">*</span>(mm1<span class="sc">+</span><span class="fu">t</span>(dm)<span class="sc">%*%</span>mm2<span class="sc">%*%</span>dm<span class="sc">+</span><span class="fu">t</span>(dp)<span class="sc">%*%</span>mm3<span class="sc">%*%</span>dp))<span class="sc">%*%</span><span class="fu">t</span>(x)<span class="sc">%*%</span>y)</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rm</span>(mm1,mm2,mm3)</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>    betaeps<span class="ot">=</span><span class="fu">max</span>(<span class="fu">abs</span>(betatilde<span class="sc">-</span>betal)<span class="sc">/</span>(<span class="fu">abs</span>(betatilde)<span class="sc">+</span>littleeps))</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>  fit<span class="ot">=</span><span class="cn">NULL</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>  fit<span class="sc">$</span>coefficients<span class="ot">=</span>betatilde</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>  fit<span class="sc">$</span>lambda<span class="ot">=</span>lambda</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>  fit<span class="sc">$</span>cor<span class="ot">=</span><span class="fu">abs</span>(rr)</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>  fit<span class="sc">$</span>weights<span class="ot">=</span>betawt</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>  fit<span class="sc">$</span>type<span class="ot">=</span>type</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>  fit<span class="sc">$</span>eps<span class="ot">=</span>eps</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>  fit<span class="sc">$</span>littleeps<span class="ot">=</span>littleeps  </span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(fit)</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span><span class="dv">100</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>c1<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.7</span>,<span class="fl">0.7</span>,<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">5</span>))</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>c2<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fl">0.7</span>,<span class="dv">1</span>,<span class="fl">0.7</span>,<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">5</span>))</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>c3<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fl">0.7</span>,<span class="fl">0.7</span>,<span class="dv">1</span>,<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">5</span>))</span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>c4<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">3</span>),<span class="dv">1</span>,<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">4</span>))</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>c5<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">4</span>),<span class="dv">1</span>,<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">3</span>))</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>c6<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">5</span>),<span class="dv">1</span>,<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">2</span>))</span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>c7<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">6</span>),<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>c8<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">7</span>),<span class="dv">1</span>)</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>s<span class="ot">&lt;-</span><span class="fu">rbind</span>(c1,c2,c3,c4,c5,c6,c7,c8)</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>x<span class="ot">&lt;-</span><span class="fu">mvrnorm</span>(n,<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">8</span>),s)</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>beta<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">5</span>))</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>eps<span class="ot">&lt;-</span><span class="fu">rnorm</span>(n)</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span>x<span class="sc">%*%</span>beta<span class="sc">+</span>eps</span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>betawt<span class="ot">&lt;-</span><span class="fu">summary</span>(<span class="fu">lm</span>(y<span class="sc">~</span>x))<span class="sc">$</span>coefficients[<span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>]</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>pacs.res<span class="ot">&lt;-</span><span class="fu">PACS</span>(y,x,<span class="at">lambda=</span><span class="dv">1</span>,<span class="at">betawt=</span>betawt,<span class="at">type=</span><span class="dv">1</span>,<span class="at">rr=</span><span class="dv">0</span>,<span class="at">eps=</span><span class="dv">10</span><span class="sc">^-</span><span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## 载入需要的程辑包：mvtnorm</code></pre>
+<pre><code>## 载入需要的程辑包：Matrix</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>betahat.pacs<span class="ot">&lt;-</span>pacs.res<span class="sc">$</span>coefficients</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">##lasso estimates</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>coef.lasso<span class="ot">&lt;-</span><span class="cf">function</span>(x,y){</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(lars)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  object1<span class="ot">&lt;-</span><span class="fu">lars</span>(x,y,<span class="at">type=</span><span class="st">&quot;lasso&quot;</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  cv_sol<span class="ot">&lt;-</span><span class="fu">cv.lars</span>(x,y,<span class="at">type=</span><span class="st">&quot;lasso&quot;</span>,<span class="at">mode=</span><span class="st">&quot;step&quot;</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  fra<span class="ot">=</span>cv_sol<span class="sc">$</span>index[<span class="fu">which.min</span>(cv_sol<span class="sc">$</span>cv)]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  betahat.lasso<span class="ot">&lt;-</span>object1<span class="sc">$</span>beta[fra,]</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(betahat.lasso)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>betahat.lasso<span class="ot">&lt;-</span><span class="fu">coef.lasso</span>(x,y)</span></code></pre></div>
+<pre><code>## Loaded lars 1.2</code></pre>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">betahat.lasso=</span>betahat.lasso,<span class="at">betahat.pacs=</span>betahat.pacs)</span></code></pre></div>
+<pre><code>## $betahat.lasso
+##          c1          c2          c3          c4          c5          c6 
+##  2.31523517  1.69546767  1.79278525  0.08142642 -0.09122545  0.00000000 
+##          c7          c8 
+##  0.09924610  0.00000000 
+## 
+## $betahat.pacs
+## [1]  2.205176e+00  1.664546e+00  1.664546e+00  4.647551e-08 -4.934140e-08
+## [6]  2.781257e-08  4.977736e-08  2.871758e-08</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">##model error (ME) for prediction accuracy</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ME<span class="ot">&lt;-</span><span class="cf">function</span>(beta,betahat,x){</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  v<span class="ot">&lt;-</span><span class="fu">cov</span>(x)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  me<span class="ot">&lt;-</span><span class="fu">t</span>((betahat<span class="sc">-</span>beta))<span class="sc">%*%</span>v<span class="sc">%*%</span>(betahat<span class="sc">-</span>beta)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(me[<span class="dv">1</span>,<span class="dv">1</span>])</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>me.lasso<span class="ot">&lt;-</span><span class="fu">ME</span>(beta,betahat.lasso,x)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>me.pacs<span class="ot">&lt;-</span><span class="fu">ME</span>(beta,betahat.pacs,x)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">me.lasso=</span>me.lasso,<span class="at">me.pacs=</span>me.pacs)</span></code></pre></div>
+<pre><code>## $me.lasso
+## [1] 0.07808866
+## 
+## $me.pacs
+## [1] 0.1625138</code></pre>
+<p><span class="math inline">\(\textbf{conclusion:}\)</span> We can see that the model error of pacs is less than that of lasso.</p>
+</div>
+<div id="we-can-also-plot-the-solution-path-for-lasso" class="section level2">
+<h2>we can also plot the solution path for lasso</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lars)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  object1<span class="ot">&lt;-</span><span class="fu">lars</span>(x,y,<span class="at">type=</span><span class="st">&quot;lasso&quot;</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(object1)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>  cv_sol<span class="ot">&lt;-</span><span class="fu">cv.lars</span>(x,y,<span class="at">type=</span><span class="st">&quot;lasso&quot;</span>,<span class="at">mode=</span><span class="st">&quot;step&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>  fra<span class="ot">=</span>cv_sol<span class="sc">$</span>index[<span class="fu">which.min</span>(cv_sol<span class="sc">$</span>cv)]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  object1<span class="sc">$</span>beta[fra,]</span></code></pre></div>
+<pre><code>##          c1          c2          c3          c4          c5          c6 
+##  2.31523517  1.69546767  1.79278525  0.08142642 -0.09122545  0.00000000 
+##          c7          c8 
+##  0.09924610  0.00000000</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#prediction</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  res<span class="ot">=</span><span class="fu">predict</span>(object1,<span class="at">newx=</span>x[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,],<span class="at">s=</span>fra,<span class="at">type=</span><span class="st">&quot;fit&quot;</span>, <span class="at">mode=</span><span class="st">&quot;step&quot;</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  res</span></code></pre></div>
+<pre><code>## $s
+## [1] 7
+## 
+## $fraction
+## [1] 0.75
+## 
+## $mode
+## [1] &quot;step&quot;
+## 
+## $fit
+## [1]  2.2733713 -0.2045510 -0.2358926 -9.2668123 -1.6338781</code></pre>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
